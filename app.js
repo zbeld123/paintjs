@@ -15,6 +15,7 @@ canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
 const ctx = canvas.getContext("2d");
+ctx.fillStyle = "White";
 ctx.lineWidth = 2.5; // 선 굵기
 ctx.strokeStyle = DEFAULT_COLOR;
 ctx.fillStyle = DEFAULT_COLOR;
@@ -75,12 +76,25 @@ function handleCanvasClick() {
   }
 }
 
+function handleCtxMenu(event) {
+  event.preventDefault();
+}
+
+function handleSaveClick(event) {
+  const image = canvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "PaintJS[Export]";
+  link.click();
+}
+
 if (canvas) {
   canvas.addEventListener("mousemove", onMouseMove); // 마우스가 움직이는 경우
   canvas.addEventListener("mousedown", startPainting); // 마우스가 눌릴 때 painting = true
   canvas.addEventListener("mouseup", stopPainting);
   canvas.addEventListener("mouseleave", stopPainting);
   canvas.addEventListener("click", handleCanvasClick);
+  canvas.addEventListener("contextmenu", handleCtxMenu);
 }
 
 // Array.from(obj) : obj를 Array값으로 반환
@@ -96,4 +110,8 @@ if (range) {
 
 if (mode) {
   mode.addEventListener("click", handleModeClick);
+}
+
+if (save) {
+  save.addEventListener("click", handleSaveClick);
 }
